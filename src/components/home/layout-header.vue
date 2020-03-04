@@ -50,14 +50,14 @@ export default {
   },
   created () {
     // 生命周期函数，进入页面后获取用户信息
-    const token = localStorage.getItem('user-token')
+    // const token = localStorage.getItem('user-token')
     this.$axios({
-      url: '/user/profile',
-      headers: {
-        Authorization: `Bearer ${token}` // 格式要求 Bearer +token
-      } // 请求头参数 headers放置请求头参数
+      url: '/user/profile'
+      // headers: {
+      //   Authorization: `Bearer ${token}` // 格式要求 Bearer +token
+      // } // 请求头参数 headers放置请求头参数
     }).then((res) => {
-      this.userInfo = res.data.data
+      this.userInfo = res.data
     })
   }
 }

@@ -84,7 +84,7 @@ export default {
           method: 'post'
           // 请求成功后把token值保存在本地数据库中
         }).then(res => {
-          window.localStorage.setItem('user-token', res.data.data.token)
+          window.localStorage.setItem('user-token', res.data.token)
           // 保存后跳转回主页
           this.$router.push('/home')
         }).catch(() => {
