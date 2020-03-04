@@ -3,12 +3,13 @@
   <el-col :span="12" class="left">
        <i class='el-icon-s-fold'></i>
        <span>
-             贵阳油榨街电竞俱乐部
+             贵阳油榨街电竞业余选手俱乐部
        </span>
   </el-col>
   <el-col :span="12" class="right">
       <!-- type转为flex布局，justify元素对齐方式，align文本对齐方式 -->
 <el-row type='flex' justify="end" align="middle">
+  <el-input  placeholder="请输入搜索内容" style='width:300px'></el-input>
     <img :src="userInfo.photo" alt="">
    <!-- 下拉菜单 -->
     <!-- 下拉菜单 点击菜单项会触发 command事件-->
@@ -23,6 +24,7 @@
                     <el-dropdown-item command="lgout">退出</el-dropdown-item>
                 </el-dropdown-menu>
            </el-dropdown>
+
     </el-row>
   </el-col>
 </el-row>

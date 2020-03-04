@@ -15,7 +15,7 @@
        </el-header>
        <!-- 主要区域 -->
        <el-main>
-         <h1>主要区域</h1>
+
           <!-- 这里应该放置 二级路由容器 -->
          <router-view></router-view>
        </el-main>

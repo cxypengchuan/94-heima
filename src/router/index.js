@@ -19,6 +19,11 @@ const routes = [
       {
         path: '',
         component: SecondHome
+      },
+      {
+        path: 'comment',
+        // 按需加载
+        component: () => import('@/views/comment')
       }
     ]
     // // route level code-splitting

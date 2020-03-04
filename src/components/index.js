@@ -2,7 +2,7 @@
 // Vue.use会调用对象中的install方法 install方法第一个参数 是Vue对象
 import LayoutHeader from './home/layout-header'
 import LayoutAside from './home/layout-aside'
-import BreadCrumb from './commom/bread-crumb'
+import BreadCrumb from './common/bread-crumb'
 export default {
   install: function (Vue) {
     //   注册全局组件 Vue 一旦注册 在任意位置都可以使用
