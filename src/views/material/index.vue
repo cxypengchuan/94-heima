@@ -1,0 +1,161 @@
+<template>
+ <el-card>
+    <bread-crumb slot='header'>
+    <template slot='title'>
+        素材管理
+    </template>
+    </bread-crumb>
+ <!-- 放置一个上传的组件 -->
+        <el-row type='flex' justify="end">
+          <!-- 上传组件要求必须传action属性 不传就会报错 可以给一个空字符串 show-file-list 是否显示已上传文件列表-->
+          <el-upload :show-file-list="false" :http-request="uploadImg" action="">
+           <el-button size="small" type='primary'>上传素材</el-button>
+           <!-- 传入一个内容 点击内容就会传出上传文件框 -->
+          </el-upload>
+        </el-row>
+
+    <!-- 放置tabs组件 -->
+    <el-tabs v-model="activeName" @tab-click="changeTab">
+
+    <el-tab-pane label="全部素材" name="all">
+        <div class="img-list">
+            <el-card class="img-card" v-for='item in list' :key='item.id'>
+                <img :src="item.url" alt="">
+                <el-row class='operate' type='flex' align="middle" justify="space-around">
+                           <i class='el-icon-star-on'></i>
+                           <i class='el-icon-delete-solid'></i>
+                        </el-row>
+            </el-card>
+        </div>
+    </el-tab-pane>
+    <!-- //收藏素材 -->
+    <el-tab-pane label="收藏素材" name="collect">
+         <!-- 内容 -->
+                  <div class='img-list'>
+                    <!-- 采用v-for对list数据进行循环 -->
+                    <el-card class='img-card' v-for="item in list" :key="item.id">
+                        <!-- 放置图片 并且赋值 图片地址-->
+                        <img :src="item.url" alt="">
+                    </el-card>
+                </div>
+    </el-tab-pane>
+
+  </el-tabs>
+   <!-- 放置一个公共的分页组件 -->
+        <el-row type='flex' justify="center" style='height:80px' align="middle">
+            <!-- 放置分页组件
+              total  总条数
+              current-page 当前页码
+              page-size 每页多少条
+              监听 分页的组件的切换事件
+            -->
+            <el-pagination background
+              :total="page.total"
+              :current-page="page.currentPage"
+              :page-size="page.pageSize"
+              layout="prev, pager, next"
+              @current-change="changePage"
+            ></el-pagination>
+        </el-row>
+    </el-card>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      activeName: 'all',
+      list: [],
+      // 专门存放分页等信息
+      page: {
+        currentPage: 1, // 默认第一页
+        total: 0, // 当前总数
+        pageSize: 10 // 每页多少条
+      }
+    }
+  },
+  methods: {
+    // 定义一个上传组件的方法
+    uploadImg (params) {
+      //  params.file 就是需要上传的图片文件
+      // 接口参数类型要求是 formData
+      const data = new FormData() // 实例化一个formData对象
+      data.append('image', params.file) // 加入文件参数
+      // 开始发送上传请求了
+      this.$axios({
+        url: '/user/images', // 请求地址
+        method: 'post', // 上传或者新增一般都是post类型
+        data // es6简写
+      }).then(() => {
+        // 如果成功了 我们应该 重新来取数据啊
+        this.getMaterial()
+      }).catch(() => {
+        this.$message.error('上传素材失败')
+      })
+    },
+    getMaterial () {
+      this.$axios({
+        url: '/user/images',
+        params: {
+
+          collect: this.activeName === 'collect', //  这个位置应该变活 根据当前的页签变活   activeName === 'all' 获取所有的素材  activeName = 'collect' 获取收藏素材
+          page: this.page.currentPage, // 取页码变量中的值 因为只要页码变量一变 获取的数据跟着变
+          per_page: this.page.pageSize // 获取每页数量
+        },
+        data: {}
+
+      }).then((res) => {
+        // 将返回的数据 赋值到data中的数据
+        this.list = res.data.results
+        // 将总条数赋值给total变量
+        this.page.total = res.data.total_count // 总数  全部素材的总数  收藏素材的总数 总数 跟随 当前页签变化而变化
+      })
+    },
+    //   该方法会在页码切换时执行
+    changePage (newPage) {
+      // 传入一个新页
+      this.page.currentPage = newPage // 将新页码赋值给页码数据
+      this.getMaterial() // 获取数据
+    },
+    changeTab () {
+      this.page.currentPage = 1 // 将页码重置为第一页 因为分类变了 数据变了
+      // 在切换事件中
+      // 可以根据当前 activeName来决定是获取哪个方面 的数据
+      // activeName === 'all' 获取所有的素材  activeName = 'collect' 获取收藏素材
+      this.getMaterial() // 直接调用获取素材的方法
+    }
+  },
+  created () {
+    this.getMaterial()
+  }
+}
+</script>
+
+<style lang='less' scoped>
+  .img-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      .img-card {
+          width: 220px;
+          height: 240px;
+          margin: 20px 40px;
+          position: relative;
+          img {
+              width: 100%;
+              height: 100%;
+          }
+          .operate {
+              position: absolute;
+              left:0;
+              bottom:0;
+              width: 100%;
+              background: #f4f5f6;
+              height: 30px;
+              i  {
+                  font-size:20px;
+              }
+          }
+      }
+  }
+</style>

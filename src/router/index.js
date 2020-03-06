@@ -24,7 +24,13 @@ const routes = [
         path: 'comment',
         // 按需加载
         component: () => import('@/views/comment')
+      },
+      {
+        path: 'material',
+        // 按需加载
+        component: () => import('@/views/material')
       }
+
     ]
     // // route level code-splitting
     // // this generates a separate chunk (about.[hash].js) for this route
