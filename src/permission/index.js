@@ -1,3 +1,4 @@
+// 导航守卫
 import router from '@/router'
 router.beforeEach(function (to, from, next) {
   if (to.path.startsWith('/home')) {

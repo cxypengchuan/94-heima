@@ -107,12 +107,12 @@ export default {
   align-items: center;
    &:before {
        /* 背景模糊效果 */
-     content: '123';
+     content: '';
      width: 100%;
      height: 100%;
      position: absolute;
-     background-image: url(../../assets/img/login_bg.jpg);
-     filter: blur(5px);
+     background-image: url(https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2327862362,3670624610&fm=26&gp=0.jpg);
+     /* filter: blur(5px); */
       background-size: cover;
 
   }

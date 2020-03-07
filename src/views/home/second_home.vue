@@ -1,16 +1,17 @@
 <template>
   <div class="box">
-  <el-carousel style="height:'600px'" :interval="1500" type="card" height="200px" autoplay='true'>
+  <!-- <el-carousel style="height:'600px'" :interval="1500" type="card" height="200px" autoplay='true'>
     <el-carousel-item v-for="item in list" :key="item" class="img">
      <img :src="item" alt="">
     </el-carousel-item>
-  </el-carousel>
+  </el-carousel> -->
 
-   <el-carousel  :interval="1500" type="card" height="200px" autoplay='true'>
+   <!-- <el-carousel  :interval="1500" type="card" height="200px" autoplay='true'>
     <el-carousel-item v-for="item in man" :key="item" class="img">
      <img :src="item" alt="">
-    </el-carousel-item>
-  </el-carousel> <el-carousel  :interval="1500" type="card" height="200px" autoplay='true'>
+    </el-carousel-item> -->
+      <!-- autoplay='true' -->
+  <el-carousel  :interval="1500" type="card" height="100vh" autoplay='true'>
     <el-carousel-item v-for="item in man" :key="item" class="img">
      <img :src="item" alt="">
     </el-carousel-item>
@@ -42,11 +43,13 @@ export default {
 
 <style lang='less' scoped>
 .box{
-    width: 90%;
-    height: 500px;
+  height: calc(100vh - 60px);
+  // background-size: cover;
+  // background-image: url("http://img.lanrentuku.com/img/allimg/0908/8_105648_1.jpg");
+
     img{
-        width: 50%;
-        height: 150%;
+        width:100%;
+        height: 100%;
     }
 }
 </style>

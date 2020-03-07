@@ -3,7 +3,7 @@
   <el-col :span="12" class="left">
        <i class='el-icon-s-fold'></i>
        <span>
-             贵阳油榨街电竞业余选手俱乐部
+             贵阳市油榨街街道办事处
        </span>
   </el-col>
   <el-col :span="12" class="right">
