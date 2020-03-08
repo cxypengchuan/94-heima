@@ -11,7 +11,7 @@
      <img :src="item" alt="">
     </el-carousel-item> -->
       <!-- autoplay='true' -->
-  <el-carousel  :interval="1500" type="card" height="100vh" autoplay='true'>
+  <el-carousel  :interval="1500" type="card" height="100vh" :autoplay='true'>
     <el-carousel-item v-for="item in man" :key="item" class="img">
      <img :src="item" alt="">
     </el-carousel-item>
@@ -43,10 +43,13 @@ export default {
 
 <style lang='less' scoped>
 .box{
+  background-color: #ccc;
   height: calc(100vh - 60px);
   // background-size: cover;
   // background-image: url("http://img.lanrentuku.com/img/allimg/0908/8_105648_1.jpg");
-
+// /deep/.el-carousel__arrow el-carousel__arrow--right{
+//   font-size: 50px;
+// }
     img{
         width:100%;
         height: 100%;
