@@ -46,7 +46,7 @@
           </div>
       <div class="right">
               <span><i class="el-icon-edit"></i> 修改</span>
-              <span><i class="el-icon-delete"></i> 删除</span>
+              <span @click="delArticles(item.id.toString())"><i class="el-icon-delete" ></i> 删除</span>
       </div>
           </div>
           <!-- 放置分页组件 -->
@@ -119,6 +119,19 @@ export default {
     }
   },
   methods: {
+    // 删除文章
+    delArticles (id) {
+      this.$confirm('您确定要删除这条文章吗？', '提示').then(() => {
+        this.$axios({
+          url: `/articles/${id}`, // 地址加参数
+          method: 'delete'
+        }).then(() => {
+          this.changeCondition()// 重新加载
+        }).catch(() => {
+          this.$message.error('删除文章失败')
+        })
+      })
+    },
     //   请求页码数据总数
     changePage (newPage) {
       this.page.currentPage = newPage// 最新页码数据
