@@ -64,13 +64,22 @@ export default {
     }
   },
   methods: {
+    //   通过id显示文章详情
+    grtaticalById (id) {
+      this.$axios({
+        url: `/articles/${id}`
+      }).then((res) => {
+        this.publishForm = res.data
+      })
+    },
     //   发布
     publish (draft) {
       this.$refs.myForm.validate().then(() => {
         // 校验成功。调用发布接口
+        const { aticalId } = this.$route.params
         this.$axios({
-          method: 'post',
-          url: '/articles',
+          url: aticalId ? `/articles/${aticalId}` : '/articles',
+          method: aticalId ? 'put' : 'post',
           params: { draft },
           data: this.publishForm
         }).then(() => {
@@ -91,6 +100,12 @@ export default {
   },
   created () {
     this.getchannels()
+    const { aticalId } = this.$route.params // articleId是 路由参数中定义的
+    if (aticalId) {
+      this.grtaticalById(aticalId)
+    }
+    // 另一种方法
+    // aticalId && this.grtaticalById(aticalId)// 与语法，前面的表达式返回true，则执行后面的代码
   }
 }
 </script>

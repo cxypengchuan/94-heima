@@ -36,7 +36,7 @@ const routes = [
         component: () => import('@/views/articles')
       },
       {
-        path: 'publish',
+        path: 'publish/:aticalId?',
         // 按需加载
         component: () => import('@/views/publish')
       }
