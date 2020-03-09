@@ -34,6 +34,11 @@ const routes = [
         path: 'articles',
         // 按需加载
         component: () => import('@/views/articles')
+      },
+      {
+        path: 'publish',
+        // 按需加载
+        component: () => import('@/views/publish')
       }
     ]
     // // route level code-splitting
