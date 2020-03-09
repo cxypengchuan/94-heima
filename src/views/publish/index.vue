@@ -5,34 +5,34 @@
         发布文章
     </template>
     </bread-crumb>
- <el-form style="margin-left:50px" label-width="100px">
-        <el-form-item label="标题">
+ <el-form ref="myForm" style="margin-left:50px" label-width="100px" :model="publishForm" :rules="publishRules">
+        <el-form-item label="标题" prop="title">
           <!-- 输入框 -->
-          <el-input placeholder="请输入您的标题" style="width:60%"></el-input>
+          <el-input placeholder="请输入您的标题" style="width:60%" v-model="publishForm.title"></el-input>
         </el-form-item>
-        <el-form-item label="内容">
+        <el-form-item label="内容" prop="content">
           <!-- 多行输入 -->
-          <el-input placeholder="请输入您的内容" type='textarea' :rows="4"></el-input>
+          <el-input placeholder="请输入您的内容" type='textarea' :rows="4" v-model="publishForm.content"></el-input>
         </el-form-item>
-        <el-form-item label="封面">
+        <el-form-item label="封面" prop="cover">
           <!-- 单选框组 -->
-          <el-radio-group>
-             <el-radio>单图</el-radio>
-             <el-radio>三图</el-radio>
-             <el-radio>无图</el-radio>
-             <el-radio>自动</el-radio>
+          <el-radio-group v-model="publishForm.cover.type">
+             <el-radio :label="1">单图</el-radio>
+             <el-radio :label="3">三图</el-radio>
+             <el-radio :label="0">无图</el-radio>
+             <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="频道">
+        <el-form-item label="频道" prop="channel_id">
           <!-- select选择器 -->
-          <el-select placeholder="请选择频道">
+          <el-select placeholder="请选择频道" v-model="publishForm.channel_id">
               <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
           <!-- 放置两个按钮 -->
-          <el-button type='primary'>发表</el-button>
-          <el-button>存入草稿</el-button>
+          <el-button type='primary' @click="publish(false)">发表</el-button>
+          <el-button @click="publish(true)">存入草稿</el-button>
         </el-form-item>
 
       </el-form>
@@ -43,10 +43,44 @@
 export default {
   data () {
     return {
-      channels: []
+      channels: [],
+      publishForm: {
+        title: '', // 文章标题
+        content: '', // 文章内容
+        cover: {
+          type: 0,
+          images: []
+        },
+        channel_id: null // 频道id
+      },
+
+      //   表单校验规则
+      publishRules: {
+        title: [{ required: true, message: '文章标题不能为空', trigger: 'blur' },
+          { min: 5, max: 30, message: '标题应该在5-30字符之间', trigger: 'blur' }],
+        content: [{ required: true, message: '文章内容不能为空', trigger: 'blur' }],
+        channel_id: [{ required: true, message: '频道内容不能为空', trigger: 'blur' }]
+      }
     }
   },
   methods: {
+    //   发布
+    publish (draft) {
+      this.$refs.myForm.validate().then(() => {
+        // 校验成功。调用发布接口
+        this.$axios({
+          method: 'post',
+          url: '/articles',
+          params: { draft },
+          data: this.publishForm
+        }).then(() => {
+          this.$message.success('发布成功')
+          this.$router.push('/home/articles')// 跳到文章列表
+        }).catch(() => {
+          this.$message.error('发布失败！')
+        })
+      })
+    },
     getchannels () {
       this.$axios({
         url: '/channels'
