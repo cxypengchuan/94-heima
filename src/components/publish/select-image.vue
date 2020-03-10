@@ -4,7 +4,7 @@
           <el-tab-pane label="素材库" name="material">
               <div class="select-image-list">
                   <el-card class="img-card" v-for="item in list" :key='item.id'>
-                      <img :src="item.url" alt="">
+                      <img :src="item.url" @click="clickImg(item.url)" alt="">
                   </el-card>
               </div>
               <!-- 分页组件 -->
@@ -50,6 +50,12 @@ export default {
         this.list = res.data.results// 获取全部素材的数据
         this.page.total = res.data.total_count// 分页组件所有数据条数
       })
+    },
+    // 点击图片时触发
+    clickImg (url) {
+    //   需要将url参数传递给上层组件
+    // 在脚手架中 自定义事件名 可以大小写通用 不用纯小写了
+      this.$emit('selectOneImg', url) // 将url参数传出去
     },
     // 切换页码显示内容
     changePage (newPage) {
