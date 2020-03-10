@@ -15,15 +15,17 @@
           <!-- <el-input placeholder="请输入您的内容" type='textarea' :rows="4" v-model="publishForm.content"></el-input> -->
         <quill-editor v-model="publishForm.content" style="height:300px"></quill-editor>
         </el-form-item>
-        <el-form-item label="封面" prop="cover" style="margin-top:120px">
+        <el-form-item label="封面" prop="cover" style="margin-top:150px">
           <!-- 单选框组 -->
-          <el-radio-group v-model="publishForm.cover.type">
+          <el-radio-group v-model="publishForm.cover.type" @change="changeType">
              <el-radio :label="1">单图</el-radio>
              <el-radio :label="3">三图</el-radio>
              <el-radio :label="0">无图</el-radio>
              <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
         </el-form-item>
+        <!-- 放置封面组件 -->
+        <cover-image :list='publishForm.cover.images'></cover-image>
         <el-form-item label="频道" prop="channel_id">
           <!-- select选择器 -->
           <el-select placeholder="请选择频道" v-model="publishForm.channel_id">
@@ -32,7 +34,7 @@
         </el-form-item>
         <el-form-item>
           <!-- 放置两个按钮 -->
-          <el-button type='primary' @click="publish(false)">发表</el-button>
+          <el-button  type='primary' @click="publish(false)">发表</el-button>
           <el-button @click="publish(true)">存入草稿</el-button>
         </el-form-item>
 
@@ -65,6 +67,17 @@ export default {
     }
   },
   methods: {
+    // 改变封面数量
+    changeType () {
+      if (this.publishForm.cover.type === 1) {
+        this.publishForm.cover.images = ['']
+      } else if (this.publishForm.cover.type === 3) {
+        this.publishForm.cover.images = ['', '', '']
+      } else {
+        this.publishForm.cover.images = []
+      }
+    },
+
     //   通过id显示文章详情
     grtaticalById (id) {
       this.$axios({
