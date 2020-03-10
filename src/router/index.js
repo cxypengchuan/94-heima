@@ -7,6 +7,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '*', // 匹配任何找不到组件的路由
+    component: () => import('@/views/404')
+
+  },
+  {
     path: '/',
     redirect: '/home'
 
@@ -39,6 +44,11 @@ const routes = [
         path: 'publish/:aticalId?',
         // 按需加载
         component: () => import('@/views/publish')
+      },
+      {
+        path: 'account',
+        // 按需加载
+        component: () => import('@/views/account')
       }
     ]
     // // route level code-splitting

@@ -34,9 +34,9 @@
              <el-menu-item index='/home/fanslist'>粉丝列表</el-menu-item>
          </el-submenu>
       <!-- 账户信息 -->
-      <el-menu-item index="2">
+      <el-menu-item  index='/home/account'>
         <i class="el-icon-menu"></i>
-        <span slot="title">账户信息</span>
+        <span slot="title" >账户信息</span>
       </el-menu-item>
      <!-- 下拉结束 -->
      </el-menu>

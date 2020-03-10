@@ -41,7 +41,7 @@ export default {
   methods: {
     clickMenu (command) {
       if (command === 'info') {
-
+        this.$router.push('/home/account')
       } else if (command === 'git') {
         window.location.href = 'https://github.com/cxypengchuan/94-heima'
       } else {
