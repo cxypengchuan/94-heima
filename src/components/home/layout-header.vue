@@ -1,7 +1,7 @@
 <template>
  <el-row type="flex" align="middle"  class='layout-header'>
   <el-col :span="12" class="left">
-       <i class='el-icon-s-fold'></i>
+       <i @click="collapse=!collapse" :class="{'el-icon-s-fold': !collapse, 'el-icon-s-unfold': collapse }"></i>
        <span>
              贵阳市油榨街街道办事处
        </span>
@@ -31,11 +31,20 @@
 </template>
 
 <script>
+import eventBus from '@/utils/eventBus' // 公共领域监听
 export default {
   data () {
     return {
       // 获取用户信息，渲染页面
-      userInfo: {}
+      userInfo: {},
+      collapse: false // 开始不是折叠的
+    }
+  },
+  // 监听data中的数据变化
+  watch: {
+    collapse () {
+      // 此时说明 折叠状态变了  通知左侧导航组件
+      eventBus.$emit('changeCollapse') // 触发一个改变折叠状态的事件
     }
   },
   methods: {
@@ -48,18 +57,24 @@ export default {
         window.localStorage.removeItem('user-token')
         this.$router.push('/login')
       }
-    }
-  },
-  created () {
-    // 生命周期函数，进入页面后获取用户信息
-    // const token = localStorage.getItem('user-token')
-    this.$axios({
-      url: '/user/profile'
+    },
+    // 获取用户信息
+    getUserinfo () {
+      // const token = localStorage.getItem('user-token')
+      this.$axios({
+        url: '/user/profile'
       // headers: {
       //   Authorization: `Bearer ${token}` // 格式要求 Bearer +token
       // } // 请求头参数 headers放置请求头参数
-    }).then((res) => {
-      this.userInfo = res.data
+      }).then((res) => {
+        this.userInfo = res.data
+      })
+    }
+  },
+  created () {
+    this.getUserinfo()
+    eventBus.$on('updateUser', () => {
+      this.getUserinfo()
     })
   }
 }

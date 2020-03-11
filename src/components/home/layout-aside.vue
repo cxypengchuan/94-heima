@@ -2,12 +2,12 @@
   <div class="layout-aside">
      <!-- 头部图片 -->
      <div class='title'>
-         <img src="../../assets/img/logo_admin.png" alt="">
+         <img :src="collapse ? smallImg : bigImg" alt="">
      </div>
      <!-- 导航菜单用el-menu -->
-  <el-menu router background-color="#323745" text-color="#adafb5">
+  <el-menu :collapse='collapse' router background-color="#323745" text-color="#adafb5">
      <el-menu-item index="/home">
-        <i class="el-icon-menu"></i>
+        <i  class="el-icon-menu"></i>
         <span slot="title">首页</span>
       </el-menu-item>
       <!-- 内容管理 -->
@@ -45,8 +45,16 @@
 
 <script>
 export default {
+  props: ['collapse'], // 接收父组件传出来的变量
+  data () {
+    return {
+      bigImg: require('../../assets/img/logo_admin.png'),
+      smallImg: require('../../assets/img/toutiao.png')
+    }
+  }
 
 }
+
 </script>
 
 <style lang="less" scoped>
@@ -56,7 +64,7 @@ export default {
   height: 100%;
   background-color: #000;
   .title{
-    text-align: center;
+    // text-align: center;
           padding: 10px 0;
 
           img {
